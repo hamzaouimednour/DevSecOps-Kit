@@ -1,0 +1,33 @@
+# kubectl apply -f bidirectional-communication-network-policy.yml
+apiVersion: networking.k8s.io/v1
+kind: NetworkPolicy
+metadata:
+  name: bidirectional-communication-network-policy
+  namespace: devbox-micoservices
+spec:
+  podSelector: {}
+  policyTypes: # Selects all pods in the namespace (can be narrowed down if desired)
+  - Ingress # incoming traffic
+  - Egress # outgoing traffic
+  ingress:
+  - from:
+    - podSelector:
+        matchLabels:
+          app: digicontract # Allow incoming traffic from pods with label 'app: digicontract'
+    - podSelector:
+        matchLabels:
+          app: egovdocs # Allow incoming traffic from pods with label 'app: egovdocs'
+    ports:
+    - protocol: TCP
+      port: # Allow all ports by default
+  egress:
+  - to:
+    - podSelector:
+        matchLabels:
+          app: digicontract # Allow outgoing traffic to pods with label 'app: digicontract'
+    - podSelector:
+        matchLabels:
+          app: egovdocs # Allow outgoing traffic to pods with label 'app: egovdocs'
+    ports:
+    - protocol: TCP
+      port: # Allow all ports by default
