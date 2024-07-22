@@ -1,0 +1,6 @@
+# cluster name
+cluster.name: elasticsearch-cluster
+
+# node name and roles
+node.name: devbox
+node.roles: [master, data]
